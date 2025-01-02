@@ -8,6 +8,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,12 +17,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import abioduncode.spring_e_shop.features.notAuthenticated.UserPrincipalService;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
   private final UserPrincipalService userPrincipalService;
 
-  public SecurityConfig(UserPrincipalService userPrincipalService){
+  private final JwtConfig jwtConfig;
+
+  public SecurityConfig(UserPrincipalService userPrincipalService, JwtConfig jwtConfig){
     this.userPrincipalService = userPrincipalService;
+    this.jwtConfig = jwtConfig;
   }
   
   @Bean
@@ -29,11 +34,12 @@ public class SecurityConfig {
     return http.csrf(Customizer -> Customizer.disable())
       .authorizeHttpRequests(request -> request
       .requestMatchers("/auth/**").permitAll()
-      .requestMatchers("/admin/**").hasRole("ADMIN")
+      .requestMatchers("/api/admin/**").hasRole("ADMIN")
       .anyRequest().authenticated())
       .httpBasic(Customizer.withDefaults())
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .cors(Customizer.withDefaults())
+      .addFilterBefore(jwtConfig, UsernamePasswordAuthenticationFilter.class)
       .build();
   }
 

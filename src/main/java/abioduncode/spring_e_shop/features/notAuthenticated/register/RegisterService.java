@@ -37,7 +37,7 @@ public class RegisterService {
     user.setLastName(request.getLastName());
     user.setEmail(request.getEmail());
     user.setPassword(encoder.encode(request.getPassword()));
-    user.setRole(request.getRole() == null ? Role.USER : request.getRole());
+    user.setRole(request.getRole() == null ? Role.ROLE_USER : request.getRole());
     user.setEmailVerify(false);
     user.setOtp(otp);
     user.setOtpExpire(LocalDateTime.now().plusMinutes(10));

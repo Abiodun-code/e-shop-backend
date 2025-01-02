@@ -27,7 +27,7 @@ public class User {
 
   private boolean emailVerify = false;
 
-  private Role role = Role.USER;
+  private Role role = Role.ROLE_USER;
 
   // No args constructor
   public User() {}
