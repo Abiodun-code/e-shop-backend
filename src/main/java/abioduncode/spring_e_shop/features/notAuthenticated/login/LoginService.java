@@ -51,7 +51,6 @@ public class LoginService {
       String refreshToken = jwtService.generateRefreshToken(request.getEmail());
 
       Map<String, Object> response = new HashMap<>();
-      response.put("user", user);  // This will include the full user information
       response.put("accessToken", accessToken);
       response.put("refreshToken", refreshToken);
 

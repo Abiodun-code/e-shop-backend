@@ -40,6 +40,7 @@ public class SecurityConfig {
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .cors(Customizer.withDefaults())
       .addFilterBefore(jwtConfig, UsernamePasswordAuthenticationFilter.class)
+      .cors(Customizer.withDefaults())
       .build();
   }
 
