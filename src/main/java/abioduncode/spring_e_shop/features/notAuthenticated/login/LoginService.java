@@ -51,6 +51,7 @@ public class LoginService {
       String refreshToken = jwtService.generateRefreshToken(request.getEmail());
 
       Map<String, Object> response = new HashMap<>();
+      response.put("role", user.getRole());  // This will include the user role
       response.put("accessToken", accessToken);
       response.put("refreshToken", refreshToken);
 
